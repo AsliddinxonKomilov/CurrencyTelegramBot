@@ -10,7 +10,7 @@ import currencyBot.service.CurrencyService;
 import currencyBot.service.FileService;
 public class Main {
     public static void main(String[] args) {
-        TelegramBot telegramBot = new TelegramBot("BOT_TOKE_HERE");
+        TelegramBot telegramBot = new TelegramBot("BOT_TOKEN_HERE");
         final String[] currentRate = {"0"};
         telegramBot.setUpdatesListener(updates -> {
             for (Update update : updates) {
@@ -64,10 +64,10 @@ public class Main {
 
                         if (userText.matches("\\d+")){
                             FileService fileService = new FileService();
-                            fileService.saveSearch(currentRate.toString(), userText);
                             String result = currencyService.calculateAmount(currentRate[0],
                                     userText);
                             telegramBot.execute(new SendMessage(chatId,result));
+                            fileService.saveSearch(currencyCode,result);
                         }
                         else if (userText.equals("Bekor qilish❌")){
                             SendMessage sendMessage = new SendMessage(chatId,"Amal bekor qilindi! Kerakli valyutani" +
